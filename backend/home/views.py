@@ -12,8 +12,8 @@ from tqdm import tqdm
 import random
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-plt.style.use("dark_background")
+# import matplotlib.pyplot as plt
+# plt.style.use("dark_background")
 
 #Image
 import cv2 as cv
