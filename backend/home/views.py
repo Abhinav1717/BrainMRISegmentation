@@ -6,7 +6,6 @@ import json
 from zipfile import ZipFile
 import shutil
 from glob import glob
-from tqdm import tqdm
 
 #Data
 import random
