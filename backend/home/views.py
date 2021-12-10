@@ -119,12 +119,12 @@ def index(request):
     body = request.body.decode('utf-8')
     body = json.loads(body)
     if("images" in body and body['images'] != None and len(body['images']) > 0):
-        try:
+        # try:
             model = initialize_model()
             predicted_images = []
             for encoded_image in body['images']:
                 #decoding image from BASE64
-                decoded_image = base64.b64decode(encoded_image)
+                decoded_image = base64.decodebytes(encoded_image)
                 image = Image.open(io.BytesIO(decoded_image))
                 image_np = np.array(image)
 
@@ -174,11 +174,11 @@ def index(request):
             response['status'] = 200
             print(response)
             return JsonResponse(response, safe = False)
-        except:
-            response = {}
-            response['message'] = "Something went wrong"
-            response['status'] = 500
-            return JsonResponse(response)
+        # except:
+            # response = {}
+            # response['message'] = "Something went wrong"
+            # response['status'] = 500
+            # return JsonResponse(response)
     else:
         response = {}
         response['message'] = "The list of images cannot be empty or null"
