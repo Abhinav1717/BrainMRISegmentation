@@ -98,24 +98,39 @@ const App = () => {
     setOrgImages([]);
     loadImages = [];
     let allPromises = [];
+    let names = [];
     let nameString = new Map();
     for(let i = 0; i < allFiles.length; i++) {
         allPromises.push(convertToBase64(allFiles[i]).then((b64) => {
-           nameString.set(allFiles[i].name, b64);
+          let x = allFiles[i].name.split('_');
+          let y = x[x.length - 1].split('.')[0];
+           nameString.set(y, b64);
+           names.push(parseInt(y));
         }))
     }
 
     let sendArray = [];
     Promise.all(allPromises).then((res) => {          
-        let arr = [];
-        nameString.forEach((a) => {
-            arr.push(a);
-            sendArray.push(a.split(',')[1]);
-        });
+        names.sort(function( a , b){
+          if(a > b) return 1;
+          if(a < b) return -1;
+          return 0;
+      });
 
+        console.log(names);
+        // console.log(nameString);
+
+        let arr = [];
+        
+        names.forEach((str) => {
+
+          arr.push(nameString.get(`${str}`));
+          sendArray.push(nameString.get(`${str}`).split(',')[1]);
+        })
+        
         setOrgImages(arr);
 
-        console.log(sendArray);
+        // console.log(sendArray);
         axios.post(process.env.REACT_APP_BACKEND, {
             images: sendArray
         })
@@ -157,7 +172,7 @@ const App = () => {
       <ImageForm imageChangeHandler={imageChangeHandler} />
     </div>
     <div className={classes.divCenter}>
-    <Typography variant="h2" className={classes.marginB + ' common'}><strong>Inference Video</strong></Typography>
+    {images.length > 0 && orgImages.length > 0 && <Typography variant="h2" className={classes.marginB + ' common'}><strong>Inference Video</strong></Typography>}
     {images.length > 0 && ind !== null && <div className={classes.square}>
         <img alt="video" src={images[ind]} className={classes.img} />
     </div>}
