@@ -1,0 +1,20 @@
+.fontStyle {
+  margin-bottom: 20px !important;
+  background: -webkit-linear-gradient(
+    to right,
+    #4073e9 18%,
+    #3ee1f8 53%,
+    #4073e9 100%
+  );
+  background: -moz-linear-gradient(
+    to right,
+    #4073e9 18%,
+    #3ee1f8 53%,
+    #4073e9 100%
+  );
+  background: linear-gradient(to right, #4073e9 18%, #3ee1f8 53%, #4073e9 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight: 600 !important;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,26 @@
+.container {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.common {
+  background: -webkit-linear-gradient(
+    to right,
+    #4073e9 18%,
+    #3ee1f8 53%,
+    #4073e9 100%
+  );
+  background: -moz-linear-gradient(
+    to right,
+    #4073e9 18%,
+    #3ee1f8 53%,
+    #4073e9 100%
+  );
+  background: linear-gradient(to right, #4073e9 18%, #3ee1f8 53%, #4073e9 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

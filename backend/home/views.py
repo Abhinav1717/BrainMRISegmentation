@@ -124,13 +124,16 @@ def index(request):
             predicted_images = []
             for encoded_image in body['images']:
                 #decoding image from BASE64
-                decoded_image = base64.decodebytes(encoded_image)
+                decoded_image = base64.b64decode(encoded_image)
                 image = Image.open(io.BytesIO(decoded_image))
                 image_np = np.array(image)
-
+                image_np = cv.resize(image_np ,IMG_SIZE)
+                
                 print("decoding complete")
                 #Preprocessing before passing into model
                 preprocessed_image = cv.cvtColor(image_np, cv.COLOR_BGR2RGB)
+                rgb_image = preprocessed_image
+                
                 preprocessed_image= cv.resize(preprocessed_image ,IMG_SIZE)
                 preprocessed_image  = preprocessed_image / 255
                 preprocessed_image = preprocessed_image[np.newaxis, :, :, :]
@@ -161,7 +164,7 @@ def index(request):
                 mask_edges = cv.resize(mask_edges,(256,256))
                 mask_edges_red = np.dstack((np.zeros((256,256)),np.zeros((256,256)), mask_edges))
 
-                predicted_image = image_np + mask_edges_red
+                predicted_image = rgb_image + mask_edges_red
                 predicted_image = im2json(predicted_image)
                 predicted_images.append(predicted_image)
 
@@ -172,7 +175,7 @@ def index(request):
             response['encoded_list_of_images'] = predicted_images
             response['message'] = "Prediction Successful"
             response['status'] = 200
-            print(response)
+            # print(response)
             return JsonResponse(response, safe = False)
         # except:
             # response = {}
