@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Typography } from '@mui/material';
+import axios from 'axios';
 import useStyles from './styles'; 
 
 const ImageForm = () => {
@@ -32,21 +33,29 @@ const ImageForm = () => {
 
     const imageChangeHandler = (event) => {
         setUploadClicked(true);
-        // console.log(event.target.files);
         let allPromises = [];
-        let allStrings = [];
-        let allNames = [];
+        let nameString = new Map();
         for(let i = 0; i < event.target.files.length; i++) {
             allPromises.push(convertToBase64(event.target.files[i]).then((b64) => {
-                console.log(b64);
-               allStrings.push(b64);
-               allNames.push(event.target.files[i].name);
+               nameString.set(event.target.files[i].name, b64);
             }))
         }
 
-        Promise.all(allPromises).then((res) => {
-            console.log('Completed', allStrings, allNames);
+        let sendArray = [];
+        Promise.all(allPromises).then((res) => {          
+            nameString.forEach((a) => {
+                sendArray.push("b'" + a.slice(23));
+                // console.log(a);
+            });
+
+            console.log(sendArray);
+            axios.post(process.env.REACT_APP_BACKEND, {
+                images: sendArray
+            })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
         })
+
     }
 
     return <div className={classes.fromContainer}>
