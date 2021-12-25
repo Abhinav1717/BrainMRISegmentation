@@ -1,2 +1,2 @@
 # BrainMRISegmentation
-Brain MRI segmentation Frontend
+Brain MRI segmentation Frontend and Backend
